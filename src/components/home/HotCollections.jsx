@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const HotCollections = (user) => {
+const HotCollections = () => {
   const [collections, setCollections] = useState([]);
 
 useEffect(() => {
@@ -16,6 +19,43 @@ useEffect(() => {
   })
 }, [])
 
+
+
+const SampleNextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+    className={className}
+    style={{...style, display: "block", background: "green"}}
+    onClick={onClick}
+    />
+    
+    )
+  }
+  
+  const SamplePrevArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+      className={className}
+      style={{...style, display: "block", background: "red"}}
+      onClick={onClick}
+      />
+      )
+    }
+    
+    
+    const settings = {
+    dots: false,
+    infinite: true,
+    lazyLoad: true,
+    speed: 100,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    }
+    
   return (
     <section id="section-collections" className="no-bottom">
       <div className="container">
@@ -26,6 +66,7 @@ useEffect(() => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
+          <Slider {...settings}>
           {collections.map((collection, index) => (
             <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
               <div className="nft_coll">
@@ -49,6 +90,7 @@ useEffect(() => {
               </div>
             </div>
           ))}
+          </Slider>
         </div>
       </div>
     </section>
