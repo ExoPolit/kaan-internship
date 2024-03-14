@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import $ from 'jquery';
+
+import OwlCarousel from "react-owl-carousel";
+import 'owl.carousel/dist/assets/owl.carousel.min.css';
+import 'owl.carousel/dist/assets/owl.theme.default.min.css';
 
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
 
+  
 useEffect(() => {
   axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections`)
   .then(function (response) {
@@ -20,42 +23,6 @@ useEffect(() => {
 }, [])
 
 
-
-const SampleNextArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-    className={className}
-    style={{...style, display: "block", background: "green"}}
-    onClick={onClick}
-    />
-    
-    )
-  }
-  
-  const SamplePrevArrow = (props) => {
-    const { className, style, onClick } = props;
-    return (
-      <div
-      className={className}
-      style={{...style, display: "block", background: "red"}}
-      onClick={onClick}
-      />
-      )
-    }
-    
-    
-    const settings = {
-    dots: false,
-    infinite: true,
-    lazyLoad: true,
-    speed: 100,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-    }
-    
   return (
     <section id="section-collections" className="no-bottom">
       <div className="container">
@@ -66,7 +33,14 @@ const SampleNextArrow = (props) => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <Slider {...settings}>
+          <OwlCarousel className="owl-carousel" 
+            loop 
+            items={4}
+            nav 
+            dots={false}
+            lazyLoad
+            center
+          >
           {collections.map((collection, index) => (
             <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
               <div className="nft_coll">
@@ -90,7 +64,7 @@ const SampleNextArrow = (props) => {
               </div>
             </div>
           ))}
-          </Slider>
+          </OwlCarousel>
         </div>
       </div>
     </section>
