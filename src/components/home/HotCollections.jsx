@@ -28,13 +28,7 @@ const HotCollections = () => {
   const initializeOwlCarousel = () => {
     if (owlCarouselRef.current && collections.length > 0) {
       $(owlCarouselRef.current).owlCarousel({
-        loop: true,
-        items: 4,
-        nav: true,
-        dots: false,
-        lazyLoad: true,
-        center: true,
-        itemWidth: 200
+
       });
     }
   };
@@ -53,16 +47,15 @@ const HotCollections = () => {
           <OwlCarousel
             className="owl-carousel"
             ref={owlCarouselRef}
+            margin={10}
             loop
             items={4}
             nav
             dots={false}
             lazyLoad
-            center
-            itemWidth={200}
           >
             {collections.map((collection, index) => (
-              <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+              <div className="" key={index}>
                 <div className="nft_coll">
                   <div className="nft_wrap">
                     <Link to="/item-details">
