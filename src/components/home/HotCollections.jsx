@@ -25,12 +25,12 @@ const HotCollections = () => {
       .then(function (response) {
         console.log("data received", response.data);
         setCollections(response.data);
-        setLoading(false)
+        setLoading(false);
         initializeOwlCarousel(); // Call the function to initialize Owl Carousel after fetching data
       })
       .catch(function (error) {
         console.error("Error fetching data:", error);
-        setLoading(false)
+        setLoading(false);
       });
   }, []);
 
@@ -51,12 +51,18 @@ const HotCollections = () => {
             </div>
           </div>
           {loading ? (
-            <div className="owl-carousel skeleton-carousel">
-            {[...Array(4)].map((_, index) => (
-              <div key={index} className="nft_coll skeleton-box"></div>
-            ))}
-          </div>
-              ) : (
+            <div className="skeleton-box">
+              {[...Array(4)].map((_, index) => (
+                  <div key={index} className="nft_coll">
+                    <div></div>
+                    <div>
+                      <i className="fa fa-check"></i>
+                    </div>
+                    <div></div>
+                  </div>
+              ))}
+            </div>
+          ) : (
             <OwlCarousel
               className="owl-carousel"
               ref={owlCarouselRef}
@@ -83,7 +89,7 @@ const HotCollections = () => {
               }}
             >
               {collections.map((collection, index) => (
-                <div className="" key={index}>
+                <div key={index}>
                   <div className="nft_coll">
                     <div className="nft_wrap">
                       <Link to="/item-details">
