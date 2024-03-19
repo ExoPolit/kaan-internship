@@ -11,6 +11,7 @@ import axios from "axios";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.min.css";
 import "owl.carousel/dist/assets/owl.theme.default.min.css";
+import Skeleton from "../UI/Skeleton"
 
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
@@ -51,17 +52,57 @@ const HotCollections = () => {
             </div>
           </div>
           {loading ? (
-            <div className="skeleton-box">
-              {[...Array(4)].map((_, index) => (
-                  <div key={index} className="nft_coll">
-                    <div></div>
-                    <div>
-                      <i className="fa fa-check"></i>
+            <>
+              <OwlCarousel
+                className="owl-carousel"
+                ref={owlCarouselRef}
+                margin={10}
+                loop
+                items={4}
+                nav
+                dots={false}
+                lazyLoad
+                responsiveClass={true}
+                responsive={{
+                  0: {
+                    items: 1,
+                  },
+                  740: {
+                    items: 2,
+                  },
+                  1000: {
+                    items: 3,
+                  },
+                  1400: {
+                    items: 4,
+                  },
+                }}
+              >
+                {[...Array(4)].map((_, index) => (
+                  <div key={index}>
+                    <div className="nft_coll">
+                      <div className="nft_wrap">
+                        <Skeleton className="lazy img-fluid" width="300px" height="300px" />
+                      </div>
+                      <div className="nft_coll_pp">
+                        <Skeleton
+                          width="60px"
+                          height="60px"
+                          borderRadius="50%"
+                        />
+                        <i className="fa fa-check"></i>
+                      </div>
+                      <div className="nft_coll_info">
+                        <Skeleton width="160px" height="15px" />
+                      </div>
+                      <div>
+                        <Skeleton width="160px" height="15px" />
+                      </div>
                     </div>
-                    <div></div>
                   </div>
-              ))}
-            </div>
+                ))}
+              </OwlCarousel>
+            </>
           ) : (
             <OwlCarousel
               className="owl-carousel"
