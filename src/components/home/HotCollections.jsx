@@ -1,9 +1,3 @@
-//Owl, Slick or Keen?
-//
-//Owl provides more options to style the carousel, whilst being fairly easy to implement
-//Slick was the easiest to implement but not as stylish as Owl
-//Keen was the most difficult to implement out of the three and their documentation was insufficient
-
 import $ from "jquery";
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
@@ -78,7 +72,7 @@ const HotCollections = () => {
                   },
                 }}
               >
-                {[...Array(4)].map((_, index) => (
+                {[...Array(4)].map((_, index) => ( //Create an array to display the skeleton loading state
                   <div key={index}>
                     <div className="nft_coll">
                       <div className="nft_wrap">
