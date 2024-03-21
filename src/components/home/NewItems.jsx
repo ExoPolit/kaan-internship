@@ -1,5 +1,4 @@
-import $ from "jquery";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import OwlCarousel from "react-owl-carousel";
@@ -9,7 +8,6 @@ import "owl.carousel/dist/assets/owl.theme.default.min.css";
 const NewItems = () => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-  const owlCarouselRef = useRef(null)
 
   useEffect(() => {
     axios
@@ -19,19 +17,46 @@ const NewItems = () => {
       .then(function (response) {
         setItems(response.data);
         setLoading(false);
-        initializeOwlCarousel()
       })
       .catch(function (error) {
         setLoading(false);
       });
   }, []);
 
-  const initializeOwlCarousel = () => {
-    if (owlCarouselRef.current && items.length > 0) {
-      $(owlCarouselRef.current).owlCarousel({});
+  useEffect(() => {
+    const timerId = setInterval(updateCountdown, 1000);
+
+    return () => {
+      clearInterval(timerId);
+    };
+  }, []);
+
+  const calculateTimeRemaining = (expiryDate) => {
+    const now = new Date();
+    const expirationTime = new Date(expiryDate);
+    const difference = expirationTime - now;
+
+    if (difference <= 0) {
+      return "Expired";
     }
+
+    const hours = Math.floor(
+      (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+    return `${hours}h ${minutes}m ${seconds}s`;
   };
 
+  const updateCountdown = () => {
+    setItems((prevItems) =>
+      prevItems.map((item) => ({
+        ...item,
+        countdown: calculateTimeRemaining(item.expiryDate),
+      }))
+    );
+  };
 
   return (
     <section id="section-items" className="no-bottom">
@@ -45,29 +70,28 @@ const NewItems = () => {
           </div>
 
           <OwlCarousel
-                className="owl-carousel"
-                ref={owlCarouselRef}
-                margin={10}
-                loop
-                items={4}
-                nav
-                dots={false}
-                lazyLoad
-                responsiveClass={true}
-                responsive={{
-                  0: {
-                    items: 1,
-                  },
-                  740: {
-                    items: 2,
-                  },
-                  1000: {
-                    items: 3,
-                  },
-                  1400: {
-                    items: 4,
-                  },
-                }}
+            className="owl-carousel"
+            margin={10}
+            loop
+            items={4}
+            nav
+            dots={false}
+            lazyLoad
+            responsiveClass={true}
+            responsive={{
+              0: {
+                items: 1,
+              },
+              740: {
+                items: 2,
+              },
+              1000: {
+                items: 3,
+              },
+              1400: {
+                items: 4,
+              },
+            }}
           >
             {items.map((item, index) => (
               <div key={index}>
@@ -84,7 +108,7 @@ const NewItems = () => {
                     </Link>
                   </div>
                   <div className="de_countdown">
-                    5555
+                    {item.countdown}
                   </div>
 
                   <div className="nft__item_wrap">
