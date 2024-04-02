@@ -2,18 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
+import Skeleton from "../UI/Skeleton";
 
-const AuthorItems = () => {
+const AuthorItems = ({author, loading}) => {
   return (
     <div className="de_tab_content">
       <div className="tab-1">
         <div className="row">
-          {new Array(8).fill(0).map((_, index) => (
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+          {!loading && author != null ? author.nftCollection?.map((nft) => (
+            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={nft.id}>
               <div className="nft__item">
                 <div className="author_list_pp">
                   <Link to="">
-                    <img className="lazy" src={AuthorImage} alt="" />
+                    <img className="lazy" src={author.authorImage} alt="" />
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
@@ -37,7 +38,7 @@ const AuthorItems = () => {
                   </div>
                   <Link to="/item-details">
                     <img
-                      src={nftImage}
+                      src={nft.nftImage}
                       className="lazy nft__item_preview"
                       alt=""
                     />
@@ -45,16 +46,42 @@ const AuthorItems = () => {
                 </div>
                 <div className="nft__item_info">
                   <Link to="/item-details">
-                    <h4>Pinky Ocean</h4>
+                    <h4>{author.authorName}</h4>
                   </Link>
-                  <div className="nft__item_price">2.52 ETH</div>
+                  <div className="nft__item_price">{nft.price} ETH</div>
                   <div className="nft__item_like">
                     <i className="fa fa-heart"></i>
-                    <span>97</span>
+                    <span>{nft.likes}</span>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> )) : new Array(8).fill(0).map((_, index) => (
+                <div
+                  key={index}
+                  className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
+                  style={{ display: "block", backgroundSize: "cover" }}
+                >
+                  <div className="nft__item">
+                    <div className="author_list_pp">
+                      <Skeleton width={50} height={50} borderRadius={9999} />
+                      <i className="fa fa-check"></i>
+                    </div>
+
+                    <div className="nft__item_wrap">
+                      <Skeleton width="100%" height="70%" borderRadius={10} />
+                    </div>
+                    <div className="nft__item_info">
+                      <Skeleton width="70%" height={20} />
+                      <div className="nft__item_price">
+                        <Skeleton width="40%" height={20} />
+                      </div>
+                      <div className="nft__item_like">
+                        <Skeleton width={40} height={20} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+           
           ))}
         </div>
       </div>
