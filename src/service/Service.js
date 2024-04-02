@@ -12,7 +12,6 @@ const Service = {
       throw error
     }
   },
-
 };
 
 export default Service;

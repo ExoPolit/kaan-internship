@@ -3,7 +3,7 @@ import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
 import { Link, useParams } from "react-router-dom";
 
-import Service from "../components/hoc/Service"
+import Service from "../service/Service"
 import Skeleton from "../components/UI/Skeleton";
 
 const Author = () => {
