@@ -10,8 +10,14 @@ const ExploreItems = () => {
   const [visibleItems, setVisibleItems] = useState(8);
 
   useEffect(() => {
+    fetchItems(
+      "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore"
+      );
+    }, []);
+    
+  const fetchItems = (url) => {
     axios
-      .get("https://us-central1-nft-cloud-functions.cloudfunctions.net/explore")
+      .get(url)
       .then(function (response) {
         setItems(response.data);
         setLoading(false);
@@ -20,7 +26,7 @@ const ExploreItems = () => {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, []);
+  };
 
   const loadMoreItems = () => {
     const nextVisibleItems = visibleItems + 4;
@@ -31,6 +37,16 @@ const ExploreItems = () => {
     }
   };
 
+  const handleFilterChange = (event) => {
+    const filterValue = event.target.value;
+    let filterUrl =
+      "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore";
+    if (filterValue) {
+      filterUrl += `?filter=${filterValue}`;
+    }
+    fetchItems(filterUrl);
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -38,6 +54,18 @@ const ExploreItems = () => {
           <div className="text-center">
             <h2>Explore Items</h2>
             <div className="small-border bg-color-2"></div>
+          </div>
+          <div>
+            <select
+              id="filter-items"
+              defaultValue=""
+              onChange={handleFilterChange}
+            >
+              <option value="">Default</option>
+              <option value="price_low_to_high">Price, Low to High</option>
+              <option value="price_high_to_low">Price, High to Low</option>
+              <option value="likes_high_to_low">Most liked</option>
+            </select>
           </div>
         </div>
         {loading ? (
