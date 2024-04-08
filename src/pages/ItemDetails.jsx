@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import EthImage from "../images/ethereum.svg";
-import AuthorImage from "../images/author_thumbnail.jpg";
 import Service from "../service/Service.js";
 import Skeleton from "../components/UI/Skeleton";
 
