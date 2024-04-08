@@ -5,16 +5,16 @@ import SkeletonCard from "../UI/SkeletonCard";
 import { Link } from "react-router-dom";
 
 const ExploreItems = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [visibleItems, setVisibleItems] = useState(8);
 
   useEffect(() => {
     fetchItems(
       "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore"
-      );
-    }, []);
-    
+    );
+  }, []);
+
   const fetchItems = (url) => {
     axios
       .get(url)
@@ -69,9 +69,13 @@ const ExploreItems = () => {
           </div>
         </div>
         {loading ? (
-          <div className="col-md-3">
-            <SkeletonCard />
-          </div>
+          <>
+            {[...Array(8)].map((_, index) => (
+              <div className="col-md-3" key={index}>
+                <SkeletonCard />
+              </div>
+            ))}
+          </>
         ) : (
           items.slice(0, visibleItems).map((item) => (
             <div className="col-md-3" key={item.id}>
@@ -79,6 +83,7 @@ const ExploreItems = () => {
             </div>
           ))
         )}
+
         <div className="col-md-12 text-center">
           {visibleItems < items.length && (
             <Link
