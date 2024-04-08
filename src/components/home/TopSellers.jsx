@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import Aos from "aos";
+import "aos/dist/aos.css";
+
+Aos.init();
+
 const API_URL =
   "https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers";
 
@@ -32,7 +37,7 @@ const TopSellers = () => {
           <div className="col-md-12">
             <ol className="author_list">
               {newItem.map((item, index) => (
-                <li key={index}>
+                <li key={index} data-aos="fade-right" data-aos-duration="1250">
                   <div className="author_list_pp">
                     <Link to={`/author/${item.authorId}`}>
                       <img
@@ -43,7 +48,7 @@ const TopSellers = () => {
                       <i className="fa fa-check"></i>
                     </Link>
                   </div>
-                  <div className="author_list_info">
+                  <div className="author_list_info" data-aos="fade-right" data-aos-duration="850" data-aos-delay="450">
                     <Link to={`/author/${item.authorId}`}>{item.authorName}</Link>
                     <span>{item.price} ETH</span>
                   </div>

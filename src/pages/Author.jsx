@@ -6,6 +6,11 @@ import { Link, useParams } from "react-router-dom";
 import Service from "../service/Service"
 import Skeleton from "../components/UI/Skeleton";
 
+import Aos from "aos";
+import "aos/dist/aos.css";
+
+Aos.init();
+
 const Author = () => {
   const { authorId } = useParams();
   const [author, setAuthor] = useState({});
@@ -42,22 +47,22 @@ const Author = () => {
 
         <section aria-label="section">
           <div className="container">
-            <div className="row">
+            <div className="row" data-aos="fade-up" data-aos-duration="850" >
               {!loading && author != null ? (
-                <div className="col-md-12">
+                <div className="col-md-12" >
                   <div className="d_profile de-flex">
-                    <div className="de-flex-col">
+                    <div className="de-flex-col" >
                       <div className="profile_avatar">
                         <img src={author.authorImage} alt="" />
 
                         <i className="fa fa-check"></i>
-                        <div className="profile_name">
+                        <div className="profile_name" >
                           <h4>
                             {author.authorName}
                             <span className="profile_username">
                               {author.tag}
                             </span>
-                            <span id="wallet" className="profile_wallet">
+                            <span id="wallet" className="profile_wallet" >
                               {author.address}
                             </span>
                             <button id="btn_copy" title="Copy Text">
