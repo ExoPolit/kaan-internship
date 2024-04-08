@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import EthImage from "../images/ethereum.svg";
-import AuthorImage from "../images/author_thumbnail.jpg";
 import Service from "../service/Service.js";
 import Skeleton from "../components/UI/Skeleton";
+
+import Aos from "aos";
+import "aos/dist/aos.css";
+
+Aos.init();
 
 const ItemDetails = () => {
   const { nftId } = useParams();
@@ -35,7 +39,7 @@ const ItemDetails = () => {
         <div id="top"></div>
         <section aria-label="section" className="mt90 sm-mt-0">
           <div className="container">
-            <div className="row">
+            <div className="row" data-aos="fade-up" data-aos-duration="850">
               {!loading && itemDetails != null ? (
                 <>
                   <div className="col-md-6 text-center">

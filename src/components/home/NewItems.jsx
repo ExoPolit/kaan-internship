@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import FetchData from "../hoc/FetchData";
 import CustomSlider from "../hoc/CustomSlider";
@@ -6,6 +6,11 @@ import Countdown from "../home/Countdown";
 
 import "../../css/styles/btn.css";
 import "../../css/styles/skeleton.css";
+
+import Aos from "aos";
+import "aos/dist/aos.css";
+
+Aos.init();
 
 const API_URL =
   "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems";
@@ -26,7 +31,7 @@ const NewItems = () => {
           </div>
           <FetchData apiUrl={API_URL}>
       {(fetchedData) => (
-          <div className="slider-container">
+          <div className="slider-container" data-aos="fade-left" data-aos-duration="950">
             <CustomSlider>
               {fetchedData.map((item) => (
                     <div
