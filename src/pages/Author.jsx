@@ -2,32 +2,29 @@ import React, { useEffect, useState } from "react";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
 import { Link, useParams } from "react-router-dom";
-import AuthorImage from "../images/author_thumbnail.jpg";
 import axios from "axios";
 
 const Author = () => {
   const { authorId } = useParams();
-  const [authorData, setAuthorData] = useState(null);
+  const [author, setAuthor] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
     axios
       .get(
         `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
       )
       .then(function (response) {
-        if (isMounted) {
-          setAuthorData(response.data);
-        }
+        console.log(response.data);
+        setAuthor(response.data);
       })
       .catch(function (error) {
-        console.log(error.data);
+        console.error("error fetching data: " + error);
       });
-
-      return () => {
-        isMounted = false;
-      }
   }, [authorId]);
+
+  if (author === null) {
+    return <div>loading...</div>
+  }
 
   return (
     <div id="wrapper">
@@ -45,22 +42,21 @@ const Author = () => {
         <section aria-label="section">
           <div className="container">
             <div className="row">
-              {authorData ? (
                 <div className="col-md-12">
                   <div className="d_profile de-flex">
                     <div className="de-flex-col">
                       <div className="profile_avatar">
-                        <img src={AuthorImage} alt="" />
+                        <img src={author.authorImage} alt="" />
 
                         <i className="fa fa-check"></i>
                         <div className="profile_name">
                           <h4>
-                            {authorData.authorName || "unknown"}
+                            {author.authorName || "unknown"}
                             <span className="profile_username">
-                              @{authorData.username || "Unknown"}
+                              @{author.tag || "Unknown"}
                             </span>
                             <span id="wallet" className="profile_wallet">
-                              {authorData.address || "unknown"}
+                              {author.address || "unknown"}
                             </span>
                             <button id="btn_copy" title="Copy Text">
                               Copy
@@ -72,7 +68,7 @@ const Author = () => {
                     <div className="profile_follow de-flex">
                       <div className="de-flex-col">
                         <div className="profile_follower">
-                          {authorData.followers || "unknown"}
+                          {author.followers || "unknown"}
                         </div>
                         <Link to="#" className="btn-main">
                           Follow
@@ -81,13 +77,10 @@ const Author = () => {
                     </div>
                   </div>
                 </div>
-              ) : (
-                <div>Loading...</div>
-              )}
 
               <div className="col-md-12">
                 <div className="de_tab tab_simple">
-                  <AuthorItems />
+                  <AuthorItems author={author}/>
                 </div>
               </div>
             </div>
