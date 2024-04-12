@@ -7,6 +7,9 @@ import axios from "axios";
 const Author = () => {
   const { authorId } = useParams();
   const [author, setAuthor] = useState(null);
+  const [isFollowing, setIsFollowing] = useState(false);
+
+
 
   useEffect(() => {
     axios
@@ -14,13 +17,30 @@ const Author = () => {
         `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
       )
       .then(function (response) {
-        console.log(response.data);
         setAuthor(response.data);
       })
       .catch(function (error) {
         console.error("error fetching data: " + error);
       });
   }, [authorId]);
+
+  const toggleFollow = () => {
+    if (isFollowing) {
+      setAuthor(prevAuthor => ({
+        ...prevAuthor,
+        followers: prevAuthor.followers - 1
+      }))
+      setIsFollowing(false);
+    }
+    else {
+      setAuthor(prevAuthor => ({
+        ...prevAuthor,
+        followers: prevAuthor.followers + 1
+      }))
+      setIsFollowing(true)
+    }
+  }
+
 
   if (author === null) {
     return <div>loading...</div>
@@ -51,12 +71,12 @@ const Author = () => {
                         <i className="fa fa-check"></i>
                         <div className="profile_name">
                           <h4>
-                            {author.authorName || "unknown"}
+                            {author.authorName}
                             <span className="profile_username">
-                              @{author.tag || "Unknown"}
+                              @{author.tag}
                             </span>
                             <span id="wallet" className="profile_wallet">
-                              {author.address || "unknown"}
+                              {author.address}
                             </span>
                             <button id="btn_copy" title="Copy Text">
                               Copy
@@ -68,10 +88,10 @@ const Author = () => {
                     <div className="profile_follow de-flex">
                       <div className="de-flex-col">
                         <div className="profile_follower">
-                          {author.followers || "unknown"}
+                          {author.followers}
                         </div>
-                        <Link to="#" className="btn-main">
-                          Follow
+                        <Link to="#" className="btn-main" onClick={toggleFollow}>
+                          {isFollowing ? "Unfollow" : "Follow"}
                         </Link>
                       </div>
                     </div>
