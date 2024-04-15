@@ -29,7 +29,7 @@ const AuthorItems = ({ author }) => {
                     className="col-lg-3 col-md-6 col-sm-6 col-xs-12"
                     key={nft.id}
                   >
-                    <Card item={nft} author={author}/>
+                    <Card item={nft} authorImage={nft.authorImage}/>
                   </div>
                 ))}
               </div>
